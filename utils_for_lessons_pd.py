@@ -65,25 +65,15 @@ def sorted_df(df):
 def today(df):
     now = datetime.datetime.now()
     return df[df["date"] == (str(now.month).rjust(2, "0")+"/"+str(now.day).rjust(2, "0"))]
-def df_now():
-    return now(df)
-def df_time_overlap(time=None):
-    return time_overlap(df, time)
-def df_then(time, date=None):
-    return then(time, date)
-def df_overlap(fields):
-    return overlap(fields)
-def df_where_will(teacher, date):
-    return where_will(teacher, date)
-def df_where(teacher):
-    return where(teacher)
-def df_show():
-    return show()
-def df_will_free(time, date=None):
-    return will_free(time, date)
-def df_free():
-    return free()
-def df_sorted_df():
-    return sorted_df()
-def df_today():
-    return today()
+def cab_free(df, cab):
+    return overlap(df, {"classroom": cab})
+def execute(commands):
+    #TODO даётся список функций дающих в результате датафрейм, они доолжны выполниться подряд и вывести значение
+    pass
+a = list(globals().items())
+translate = dict(zip("qwertyuiopasdfghjklzxcvbnm", "йцукенгшщзфывапролдячсмить"))
+for key, value in a:
+    if type(value) == type(lambda:0):
+        var = value.__code__.co_varnames[:value.__code__.co_argcount]
+        if var[0] == "df":
+            exec(f"def df_{key}("+','.join([arg+"=None" for arg in var[1:]])+f"):return {key}(df, {','.join(var[1:])})")
