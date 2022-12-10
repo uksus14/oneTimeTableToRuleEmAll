@@ -38,12 +38,13 @@ with open("lessons.json", "r", encoding="utf-8") as f:
     old_data = loads(f.read())
 
 driver.get(login_url)
+input("continue?")
 driver.find_element(By.ID, "login_Login_1e1").send_keys(login)
 driver.find_element(By.ID, "login_Login_1e2").send_keys(password)
 driver.find_element(By.CLASS_NAME, "skgdFormSubmit").click()
-until_lose(By.ID, "login_Login_1e1")
+input("continue?")
 driver.get(dashboard_url)
-until_find(By.TAG_NAME, "span", lambda el:el.get_attribute("title")=="Классы")
+input("continue?")
 def find_lessons():
     lessons = []
     cabs = driver.find_elements(By.CLASS_NAME, "tt-cell")
@@ -53,17 +54,20 @@ def find_lessons():
     return lessons
 info = []
 [span.click() for span in driver.find_elements(By.TAG_NAME, "span") if span.get_attribute("title") == "Классы"]
+input('continue?')
 facs = len(driver.find_element(By.CLASS_NAME, "dropDownPanel").find_elements(By.TAG_NAME, "a")[:-2])
 try:
-    for fac in range(14, facs):
+    for fac in range(25, facs):
         [span.click() for span in driver.find_elements(By.TAG_NAME, "span") if span.get_attribute("title") == "Классы"]
-        fac = driver.find_element(By.CLASS_NAME, "dropDownPanel").find_elements(By.TAG_NAME, "a")[fac]
-        fac.click()
-        sleep(1)
+        input('continue?')
+        fac1 = driver.find_element(By.CLASS_NAME, "dropDownPanel").find_elements(By.TAG_NAME, "a")[fac]
+        fac1.click()
+        input("continue?")
         info.extend(find_lessons())
 except:
     pass
 print(info)
+# print(fac)
 with open("lessons.json", "w", encoding="utf-8") as f:
     f.write(dumps(info+old_data))
 # while 1:
