@@ -1,7 +1,10 @@
 import telebot
-
+import utils_for_lessons_pd as utils
 commands = { # a dictionary to store all the available commands to present those to a user
     'start'       : 'Get used to the bot',
+    'free'        : 'What auditories are free right now',
+    'where {Name of teacher}': 'Where is teacher today',
+    'now': 'What lessons are going now',
     'help'        : 'Gives you information about the available commands',
 }
 
@@ -13,10 +16,17 @@ bot = telebot.TeleBot(token)
 
 @bot.message_handler(commands=['start'])
 def start_command(m):
-    f = open("file.txt",'r',encoding = 'utf-8')
-    auditories = f.read()
-    print(*auditories)
-    bot.send_message(m.chat.id,f"Free auditories: {auditories}")
+    bot.send_message(m.chat.id, "/help for commands")
+@bot.message_handler(commands=['free'])
+def free123(m):
+    bot.send_message(m.chat.id,f"Free auditories: {utils.df_free()}")
+@bot.message_handler(commands=['where'])
+def adsfree123(m):
+    teacher = m.text.partition(" ")[2]
+    bot.send_message(m.chat.id,f"{utils.show(utils.df_where(teacher)).to_string()}")
+@bot.message_handler(commands=['now'])
+def adsfadsfree123(m):
+    bot.send_message(m.chat.id,f"{utils.show(utils.df_now()).to_string()}")
 
 @bot.message_handler(commands=['help']) # /help command handleк that will print available commands 
 def command_help(m):                    # from the dictionary above
